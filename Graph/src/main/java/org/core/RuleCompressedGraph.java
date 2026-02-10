@@ -17,6 +17,15 @@ public class RuleCompressedGraph implements Graph {
     @Override
     public List<Integer> neighbors(int node) {
         System.out.println("[RuleGraph] Fetching neighbors for node: " + node);
-        return rules.get(nodeToRule.get(node)).apply();
+
+        int ruleId = nodeToRule.get(node);     // which rule?
+        Rule rule = rules.get(ruleId);         // fetch rule
+
+        List<Integer> neighbors = rule.apply(node);
+
+        System.out.println("[RuleGraph] node=" + node + ", rule="
+                + rule.getClass().getSimpleName() + ", neighbors=" + neighbors);
+
+        return neighbors;
     }
 }

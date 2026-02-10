@@ -20,7 +20,7 @@ public class GraphIntegrationTest {
 
     @Test
     public void testRuleCompressedGraph() {
-        Rule ruleA = new Rule(List.of(2, 3, 4));
+        Rule ruleA = new FixedExpansionRule(List.of(2, 3, 4));
 
         Map<Integer, Rule> rules = Map.of(1, ruleA);
         Map<Integer, Integer> nodeToRule = Map.of(10, 1, 11, 1);
@@ -43,5 +43,18 @@ public class GraphIntegrationTest {
         Graph graph = new SupernodeGraph(adj, supernodes);
 
         assertEquals(graph.neighbors(1), List.of(7, 8, 9, 5));
+    }
+
+    @Test
+    public void testLinearRuleGraph() {
+        Rule linear = new LinearRule();
+
+        Map<Integer, Rule> rules = Map.of(1, linear);
+        Map<Integer, Integer> nodeToRule = Map.of(5, 1, 6, 1);
+
+        Graph graph = new RuleCompressedGraph(nodeToRule, rules);
+
+        assertEquals(graph.neighbors(5), List.of(4, 6));
+        assertEquals(graph.neighbors(6), List.of(5, 7));
     }
 }
